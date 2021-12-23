@@ -1,0 +1,10 @@
+server:
+  port: 8082
+spring:
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: none
+
+  jackson:
+    default-property-inclusion: non_null
