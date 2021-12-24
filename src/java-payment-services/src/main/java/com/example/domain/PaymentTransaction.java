@@ -1,7 +1,9 @@
 package com.example.domain;
 
 import com.example.core.DomainEvent;
+import lombok.Getter;
 
+@Getter
 public class PaymentTransaction extends DomainEvent {
     private final String content;
 
@@ -9,7 +11,4 @@ public class PaymentTransaction extends DomainEvent {
         this.content = content;
     }
 
-    public String getContent() {
-        return this.content;
-    }
 }

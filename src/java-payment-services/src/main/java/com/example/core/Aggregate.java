@@ -1,30 +1,29 @@
 package com.example.core;
 
-import org.slf4j.Logger;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 
+@Slf4j
+@Getter
 public class Aggregate {
-
-    private static final Logger log = org.slf4j.LoggerFactory.getLogger(Aggregate.class);
     protected final List<DomainEvent> changes = new ArrayList<>();
     protected UUID aggregateId;
     protected int baseVersion = 0;
 
     public Aggregate(UUID aggregateId, List<DomainEvent> events) {
-        Objects.requireNonNull(aggregateId);
-        Objects.requireNonNull(events);
-        this.aggregateId = aggregateId;
+        this.setAggregateId(aggregateId);
         loadFromHistory(events);
     }
 
     public Aggregate(UUID aggregateId) {
         this(aggregateId, Collections.emptyList());
-    }
-
-    public Aggregate() {
     }
 
     public void setAggregateId(UUID aggregateId) {
@@ -41,14 +40,12 @@ public class Aggregate {
 
     protected void applyChange(DomainEvent event) {
 
-        event.setAggregateId(aggregateId);
+        event.setAggregateId(this.getAggregateId());
         event.setVersion(getNextVersion());
 
         if (event.getVersion() != getNextVersion()) {
             throw new IllegalStateException(
-                    String.format(
-                            "Event version %s doesn't match expected version %s",
-                            event.getVersion(), getNextVersion()));
+                    String.format("Event version %s doesn't match expected version %s", event.getVersion(), getNextVersion()));
         }
         apply(event);
         changes.add(event);
@@ -73,24 +70,7 @@ public class Aggregate {
                     e);
         }
     }
-
     protected int getNextVersion() {
         return baseVersion + changes.size() + 1;
-    }
-
-    public List<DomainEvent> getChanges() {
-        return this.changes;
-    }
-
-    public UUID getAggregateId() {
-        return this.aggregateId;
-    }
-
-    public int getBaseVersion() {
-        return this.baseVersion;
-    }
-
-    public void setBaseVersion(int baseVersion) {
-        this.baseVersion = baseVersion;
     }
 }

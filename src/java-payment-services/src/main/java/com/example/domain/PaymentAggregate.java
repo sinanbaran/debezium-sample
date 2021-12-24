@@ -14,7 +14,7 @@ import java.util.UUID;
 public class PaymentAggregate extends Aggregate {
     private List<PaymentTransaction> transactions;
     private float amount;
-    private String stage;
+    private String state;
 
     public PaymentAggregate(UUID aggregateId, float amount) {
         super(aggregateId);
@@ -37,14 +37,12 @@ public class PaymentAggregate extends Aggregate {
         applyChange(new PaymentAdPartialRefundEvent(refundAmount));
     }
 
-
     public void apply(PaymentCreatedEvent event) {
         this.setAggregateId(event.getAggregateId());
         this.amount = event.getAmount();
     }
 
     public void apply(PaymentAdPartialRefundEvent event) {
-
         if (Objects.isNull(transactions))
             transactions = new ArrayList<>();
         transactions.add(new PaymentTransaction(String.format("refund amount : %s", event.getAmount())));
@@ -53,16 +51,15 @@ public class PaymentAggregate extends Aggregate {
     public void apply(PaymentTransaction event) {
         if (Objects.isNull(transactions))
             transactions = new ArrayList<>();
-
         transactions.add(new PaymentTransaction(event.getContent()));
     }
 
     public void apply(PaymentCancelledEvent event) {
-        this.stage = "cancel";
+        this.state = "cancel";
     }
 
     public void apply(PaymentCompletedEvent event) {
-        this.stage = "complete";
+        this.state = "complete";
     }
 
 }

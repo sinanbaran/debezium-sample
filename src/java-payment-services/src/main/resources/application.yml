@@ -1,10 +1,11 @@
 server:
-  port: 8082
+  port: 8085
 spring:
-  jpa:
-    open-in-view: true
-    hibernate:
-      ddl-auto: none
-
   jackson:
     default-property-inclusion: non_null
+  profiles:
+    active: local
+  datasource:
+    url: jdbc:postgresql://localhost:5432/payment
+    username: pgusr
+    password: pgpw

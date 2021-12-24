@@ -1,7 +1,6 @@
 package com.example.domain.events;
 
 import com.example.core.DomainEvent;
-import lombok.Getter;
 
 public class PaymentCreatedEvent extends DomainEvent {
 
