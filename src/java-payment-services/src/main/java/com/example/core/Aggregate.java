@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,26 +14,18 @@ import java.util.UUID;
 public class Aggregate {
     protected final List<DomainEvent> changes = new ArrayList<>();
     protected UUID aggregateId;
-    protected int baseVersion = 0;
+    protected int version = 0;
 
-    public Aggregate(UUID aggregateId, List<DomainEvent> events) {
-        this.setAggregateId(aggregateId);
-        loadFromHistory(events);
-    }
-
-    public Aggregate(UUID aggregateId) {
-        this(aggregateId, Collections.emptyList());
-    }
 
     public void setAggregateId(UUID aggregateId) {
         this.aggregateId = aggregateId;
     }
 
-    private void loadFromHistory(List<DomainEvent> events) {
+    protected void Load(List<DomainEvent> events) {
         events.forEach(
                 event -> {
                     apply(event);
-                    baseVersion = event.getVersion();
+                    version = event.getVersion();
                 });
     }
 
@@ -71,6 +62,6 @@ public class Aggregate {
         }
     }
     protected int getNextVersion() {
-        return baseVersion + changes.size() + 1;
+        return version + changes.size() + 1;
     }
 }

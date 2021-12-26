@@ -9,7 +9,6 @@ import java.util.UUID;
 @Getter
 @Setter
 public abstract class DomainEvent {
-    protected long id;
     protected UUID aggregateId;
     protected int version;
     protected Instant createdDate = Instant.now();

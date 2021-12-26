@@ -7,5 +7,5 @@ spring:
     active: local
   datasource:
     url: jdbc:postgresql://localhost:5432/payment
-    username: pgusr
-    password: pgpw
+    username: postgres
+    password: postgres

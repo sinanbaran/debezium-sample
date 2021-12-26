@@ -2,9 +2,14 @@ package com.example.domain.events;
 
 import com.example.core.DomainEvent;
 
+
 public class PaymentCreatedEvent extends DomainEvent {
 
-    private final float amount;
+    public PaymentCreatedEvent() {
+
+    }
+
+    private float amount;
 
     public PaymentCreatedEvent(float amount) {
         this.amount = amount;

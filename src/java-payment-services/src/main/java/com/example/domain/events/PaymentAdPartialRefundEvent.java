@@ -4,8 +4,11 @@ import com.example.core.DomainEvent;
 
 
 public class PaymentAdPartialRefundEvent extends DomainEvent {
-    private final float amount;
 
+    private  float amount;
+    public PaymentAdPartialRefundEvent(){
+
+    }
     public PaymentAdPartialRefundEvent(float amount) {
         this.amount = amount;
     }
