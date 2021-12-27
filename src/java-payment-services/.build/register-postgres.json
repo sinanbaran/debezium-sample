@@ -3,12 +3,17 @@
   "config": {
     "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
     "tasks.max": "1",
+    "plugin.name": "wal2json",
     "database.hostname": "postgres",
     "database.port": "5432",
     "database.user": "postgres",
     "database.password": "postgres",
-    "database.dbname" : "payment",
-    "database.server.name": "dbserver1",
-    "schema.include.list": "payment"
+    "database.dbname": "payment",
+    "database.server.name": "iku",
+    "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+    "key.converter.schemas.enable": "false",
+    "value.converter.schemas.enable": "false",
+    "snapshot.mode": "always"
   }
 }
